@@ -1,0 +1,111 @@
+package edu.scu.zhongruan.controller;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import edu.scu.zhongruan.exception.RepeatAccountException;
+import edu.scu.zhongruan.utils.PageUtils;
+import edu.scu.zhongruan.utils.R;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import edu.scu.zhongruan.entity.DoctorEntity;
+import edu.scu.zhongruan.service.DoctorService;
+
+import javax.print.Doc;
+
+
+/**
+ * 
+ *
+ * @author liguohua
+ * @email 3537136394@qq.com
+ * @date 2023-06-10 14:56:17
+ */
+@RestController
+@RequestMapping("zhongruan/doctor")
+public class DoctorController {
+    @Autowired
+    private DoctorService doctorService;
+
+    /**
+     * 医生注册
+     * @param entity 实体类
+     * @return 操作成功与否
+     */
+    @PostMapping("/register")
+    public R register(@RequestBody DoctorEntity entity){
+        try{
+            doctorService.register(entity);
+        }catch (RepeatAccountException e){
+            return R.error("账号重复");
+        }catch (IllegalArgumentException e){
+            return R.error("密码为空");
+        }catch (Exception e){
+            return R.error().put("exception", e.toString());
+        }
+        return R.ok();
+    }
+
+    @PostMapping("/login")
+    public R login(@RequestBody DoctorEntity entity){
+        String token = "";
+        try{
+            token = doctorService.login(entity);
+        }catch (IllegalArgumentException e){
+            return R.error("账号或者密码错误").put("exception", e.toString());
+        }catch (Exception e){
+            return R.error().put("exception", e.toString());
+        }
+        return R.ok().put("token", token);
+    }
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/list")
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = doctorService.queryPage(params);
+        return R.ok().put("page", page);
+    }
+
+
+    /**
+     * 信息
+     */
+    @RequestMapping("/info/{name}")
+    public R info(@PathVariable("name") String name){
+		DoctorEntity doctor = doctorService.getById(name);
+        return R.ok().put("doctor", doctor);
+    }
+
+    /**
+     * 注册账号
+     */
+    @RequestMapping("/register")
+    public R save(@RequestBody DoctorEntity doctor){
+		doctorService.save(doctor);
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping("/update")
+    public R update(@RequestBody DoctorEntity doctor){
+		doctorService.updateById(doctor);
+
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @RequestMapping("/delete")
+    public R delete(@RequestBody String[] names){
+		doctorService.removeByIds(Arrays.asList(names));
+
+        return R.ok();
+    }
+
+}
