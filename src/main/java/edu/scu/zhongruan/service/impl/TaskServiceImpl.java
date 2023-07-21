@@ -16,6 +16,7 @@ import edu.scu.zhongruan.dao.TaskDao;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.entity.TaskEntity;
+import edu.scu.zhongruan.enums.TaskStatusEnum;
 import edu.scu.zhongruan.service.TaskService;
 import edu.scu.zhongruan.utils.*;
 import edu.scu.zhongruan.vo.TaskVo;
@@ -122,14 +123,17 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
         if(Objects.isNull(entity)){
             throw new IllegalArgumentException("id为" + dto.getId() + "的任务不存在");
         }
+        if(entity.getStatus() == TaskStatusEnum.COMPLETE.getCode()){
+            throw new IllegalArgumentException("任务id为" + dto.getId() + "的任务已经完成，请勿重复回传数据");
+        }
         entity.setEndTime(new Date());
         int costTime = (int) (entity.getEndTime().getTime() - entity.getBeginTime().getTime());
         entity.setCostTime(costTime);
-        //修改任务状态
-        if(entity.getStatus() == 1){
-            entity.setStatus(2);
+        //设置状态
+        if(entity.getStatus() == TaskStatusEnum.RECEIVING_RESPONSE.getCode()){
+            entity.setStatus(TaskStatusEnum.COMPLETE.getCode());
         }else{
-            entity.setStatus(1);
+            entity.setStatus(TaskStatusEnum.RECEIVING_RESPONSE.getCode());
         }
         //删除redis中的任务id
         SetOperations<String, String> ops = template.opsForSet();
@@ -226,11 +230,17 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
     public void taskPostData(TaskPostDataDto dto) {
         log.info("收到python端回传的数据{}", JSONObject.toJSONString(dto));
         TaskEntity taskEntity = baseMapper.selectById(dto.getId());
+        if(Objects.isNull(taskEntity)){
+            throw new IllegalArgumentException("任务id为" + dto.getId() + "的任务不存在");
+        }
+        if(taskEntity.getStatus() == TaskStatusEnum.COMPLETE.getCode()){
+            throw new IllegalArgumentException("任务id为" + dto.getId() + "的任务已经完成，请勿重复回传数据");
+        }
         taskEntity.setMeasurement(JSONObject.toJSONString(dto.getMeasurement()));
-        if(taskEntity.getStatus() == 1){
-            taskEntity.setStatus(2);
+        if(taskEntity.getStatus() == TaskStatusEnum.RECEIVING_RESPONSE.getCode()){
+            taskEntity.setStatus(TaskStatusEnum.COMPLETE.getCode());
         }else{
-            taskEntity.setStatus(1);
+            taskEntity.setStatus(TaskStatusEnum.RECEIVING_RESPONSE.getCode());
         }
         baseMapper.updateById(taskEntity);
     }

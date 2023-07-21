@@ -2,11 +2,11 @@ package edu.scu.zhongruan;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import edu.scu.zhongruan.controller.dto.QueryTaskDto;
+import edu.scu.zhongruan.entity.DoctorEntity;
+import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.service.TaskService;
 import edu.scu.zhongruan.utils.R;
 import edu.scu.zhongruan.vo.TaskVo;
-import edu.scu.zhongruan.entity.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,12 +26,7 @@ class ZhongruanApplicationTests {
         List<TaskVo> vos = new ArrayList<>();
         vos.add(mockTaskVo());
         vos.add(mockTaskVo());
-        QueryTaskDto dto = new QueryTaskDto();
-        dto.setData(vos);
-        dto.setTotal(200);
-        dto.setCount(2);
-
-        System.out.println(JSONObject.toJSONString(R.ok().put("data", dto)));
+        System.out.println(JSONObject.toJSONString(R.ok().put("data", vos)));
     }
 
 
@@ -47,6 +42,7 @@ class ZhongruanApplicationTests {
         taskVo.setFileType("fileType");
         taskVo.setAdvice("advice");
         taskVo.setNotes("notes");
+        taskVo.setStatusDesc("等待结果");
         JSONArray array =  new JSONArray();
         JSONObject obj = new JSONObject();
         obj.put("index_from_0", 1);

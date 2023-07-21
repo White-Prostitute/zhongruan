@@ -8,6 +8,7 @@ import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.service.PatientService;
 import edu.scu.zhongruan.utils.PageUtils;
 import edu.scu.zhongruan.utils.Query;
+import edu.scu.zhongruan.utils.ValidateUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,7 +23,7 @@ public class PatientServiceImpl extends ServiceImpl<PatientDao, PatientEntity> i
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<PatientEntity> page = this.page(
                 new Query<PatientEntity>().getPage(params),
-                new QueryWrapper<PatientEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);
@@ -34,6 +35,10 @@ public class PatientServiceImpl extends ServiceImpl<PatientDao, PatientEntity> i
      */
     @Override
     public void add(PatientEntity patient) {
+        //校验身份证有效性
+        if(!ValidateUtil.isValidIdentificationNumber(patient.getId())){
+            throw new IllegalArgumentException("提供的身份号码无效");
+        }
         //校验病人是否已经存在
         PatientEntity entity = baseMapper.selectById(patient.getId());
         if(Objects.nonNull(entity)){

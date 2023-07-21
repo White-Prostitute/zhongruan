@@ -40,3 +40,21 @@
 2023-07-21 15:38:29 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
 2023-07-21 15:38:29 -Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
 2023-07-21 15:38:31 -Started ZhongruanApplicationTests in 9.086 seconds (JVM running for 11.114)
+2023-07-21 17:06:50 -Starting ZhongruanApplicationTests using Java 1.8.0_372 on MBP-2Z23FVLVCH-1903.local with PID 6118 (started by mac in /Users/mac/Downloads/zhongruan/zhongruan)
+2023-07-21 17:06:50 -No active profile set, falling back to 1 default profile: "default"
+2023-07-21 17:06:51 -Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-21 17:06:51 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-07-21 17:06:51 -Finished Spring Data repository scanning in 14 ms. Found 0 Redis repository interfaces.
+2023-07-21 17:06:54 -Started ZhongruanApplicationTests in 9.243 seconds (JVM running for 10.745)
+2023-07-21 17:07:24 -Starting ZhongruanApplicationTests using Java 1.8.0_372 on MBP-2Z23FVLVCH-1903.local with PID 6147 (started by mac in /Users/mac/Downloads/zhongruan/zhongruan)
+2023-07-21 17:07:24 -No active profile set, falling back to 1 default profile: "default"
+2023-07-21 17:07:24 -Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-21 17:07:24 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-07-21 17:07:24 -Finished Spring Data repository scanning in 15 ms. Found 0 Redis repository interfaces.
+2023-07-21 17:07:27 -Started ZhongruanApplicationTests in 8.65 seconds (JVM running for 9.754)
+2023-07-21 18:03:53 -Starting ZhongruanApplicationTests using Java 1.8.0_372 on MBP-2Z23FVLVCH-1903.local with PID 8635 (started by mac in /Users/mac/Downloads/zhongruan/zhongruan)
+2023-07-21 18:03:53 -No active profile set, falling back to 1 default profile: "default"
+2023-07-21 18:03:54 -Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-21 18:03:54 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-07-21 18:03:54 -Finished Spring Data repository scanning in 18 ms. Found 0 Redis repository interfaces.
+2023-07-21 18:03:57 -Started ZhongruanApplicationTests in 9.099 seconds (JVM running for 10.288)

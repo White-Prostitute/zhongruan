@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.entity.TaskEntity;
+import edu.scu.zhongruan.enums.TaskStatusEnum;
 import lombok.Data;
 
 import java.util.Date;
@@ -66,6 +67,11 @@ public class TaskVo {
     private Integer status;
 
     /**
+     * 状态描述
+     */
+    private String statusDesc;
+
+    /**
      * 医生信息
      */
     private DoctorEntity doctor;
@@ -82,6 +88,7 @@ public class TaskVo {
         this.advice = entity.getAdvice();
         this.notes = entity.getNotes();
         this.status = entity.getStatus();
+        this.statusDesc = TaskStatusEnum.getDesc(this.status);
         this.fileType = entity.getFileType();
         this.beginTime = entity.getBeginTime();
         this.endTime = entity.getEndTime();
