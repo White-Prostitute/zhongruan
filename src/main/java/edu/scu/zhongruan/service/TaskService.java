@@ -1,11 +1,14 @@
 package edu.scu.zhongruan.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import edu.scu.zhongruan.controller.dto.QueryTaskDto;
 import edu.scu.zhongruan.controller.dto.TaskCompleteDto;
 import edu.scu.zhongruan.controller.dto.TaskPostDataDto;
+import edu.scu.zhongruan.controller.request.QueryTaskRequest;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.entity.TaskEntity;
 import edu.scu.zhongruan.utils.PageUtils;
+import edu.scu.zhongruan.vo.TaskVo;
 import org.codehaus.jettison.json.JSONException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +31,9 @@ public interface TaskService extends IService<TaskEntity> {
 
     void completeTask(TaskCompleteDto dto) throws Exception;
 
-    List<TaskEntity> allTask(DoctorEntity entity);
+    List<TaskVo> allTask(DoctorEntity entity);
+
+    QueryTaskDto queryTask(QueryTaskRequest request);
 
     void writeAdviceOrNotes(TaskEntity entity);
 

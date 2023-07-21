@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.List;
 
+//python端回传给java端分析数据
 @Data
 public class TaskPostDataDto {
 

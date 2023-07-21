@@ -1,16 +1,12 @@
 package edu.scu.zhongruan.controller;
 
-import java.util.Arrays;
-import java.util.Map;
+import java.util.*;
 
 import edu.scu.zhongruan.utils.PageUtils;
 import edu.scu.zhongruan.utils.R;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import edu.scu.zhongruan.entity.ModelEntity;
 import edu.scu.zhongruan.service.ModeService;
@@ -24,11 +20,24 @@ import edu.scu.zhongruan.service.ModeService;
  * @email 3537136394@qq.com
  * @date 2023-06-10 14:56:17
  */
+@Slf4j
 @RestController
-@RequestMapping("zhongruan/mode")
-public class ModeController {
+@RequestMapping("zhongruan/model")
+public class ModelController {
     @Autowired
     private ModeService modeService;
+
+    @GetMapping("/all")
+    public R allModel(){
+        List<ModelEntity> modelEntities;
+        try{
+             modelEntities = modeService.allModel();
+        }catch (Exception e){
+            log.error("获取模型列表失败", e);
+            return Objects.requireNonNull(R.error().put("exception", e.toString())).put("msg", e.getMessage());
+        }
+        return R.ok().put("data", modelEntities);
+    }
 
     /**
      * 列表
@@ -36,7 +45,6 @@ public class ModeController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = modeService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 

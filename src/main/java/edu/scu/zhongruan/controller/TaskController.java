@@ -1,14 +1,18 @@
 package edu.scu.zhongruan.controller;
 
+import edu.scu.zhongruan.controller.dto.QueryTaskDto;
 import edu.scu.zhongruan.controller.dto.TaskCompleteDto;
 import edu.scu.zhongruan.controller.dto.TaskPostDataDto;
+import edu.scu.zhongruan.controller.request.QueryTaskRequest;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.entity.TaskEntity;
 import edu.scu.zhongruan.service.TaskService;
 import edu.scu.zhongruan.utils.AliOss;
 import edu.scu.zhongruan.utils.R;
 import edu.scu.zhongruan.utils.UsuUtil;
+import edu.scu.zhongruan.vo.TaskVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -40,14 +45,26 @@ public class TaskController {
      */
     @GetMapping("/list")
     public R list(DoctorEntity entity){
-        List<TaskEntity> list;
+        List<TaskVo> list;
         try{
             list = taskService.allTask(entity);
         }catch (Exception e){
             log.error("获取任务列表失败", e);
-            return R.error().put("exception", e.toString());
+            return Objects.requireNonNull(R.error().put("exception", e.toString())).put("msg", e.getMessage());
         }
         return R.ok().put("data", list);
+    }
+
+    @PostMapping("/page")
+    public R queryPage(QueryTaskRequest request){
+        QueryTaskDto dto;
+        try{
+            dto = taskService.queryTask(request);
+        }catch (Exception e){
+            log.error("分页查询任务失败", e);
+            return Objects.requireNonNull(R.error().put("exception", e.toString())).put("msg", e.getMessage());
+        }
+        return R.ok().put("data", dto);
     }
 
 
@@ -71,7 +88,8 @@ public class TaskController {
         try{
             taskService.newTask(entity, files);
         }catch (Exception e){
-            return R.error().put("exception", e.toString());
+            log.error("前端上传文件失败", e);
+            return Objects.requireNonNull(R.error().put("exception", e.toString())).put("msg", e.getMessage());
         }
         return R.ok();
     }
@@ -153,9 +171,15 @@ public class TaskController {
     /**
      * 删除
      */
-    @RequestMapping("/delete")
-    public R delete(@RequestBody String[] ids){
-		taskService.removeByIds(Arrays.asList(ids));
+    @DeleteMapping("/delete")
+    public R delete(@RequestBody Map<String, Object> map){
+        try{
+            List<String> ids = (List<String>) map.get("ids");
+            taskService.removeByIds(ids);
+        }catch (Exception e){
+            log.error("删除失败", e);
+            return Objects.requireNonNull(R.error().put("exception", e.toString())).put("msg", e.getMessage());
+        }
         return R.ok();
     }
 

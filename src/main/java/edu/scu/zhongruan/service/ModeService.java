@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import edu.scu.zhongruan.entity.ModelEntity;
 import edu.scu.zhongruan.utils.PageUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,6 +15,8 @@ import java.util.Map;
  * @date 2023-06-10 14:56:17
  */
 public interface ModeService extends IService<ModelEntity> {
+
+    List<ModelEntity> allModel();
 
     PageUtils queryPage(Map<String, Object> params);
 }

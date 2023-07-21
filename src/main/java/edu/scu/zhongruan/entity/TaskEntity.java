@@ -1,17 +1,15 @@
 package edu.scu.zhongruan.entity;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import com.alibaba.fastjson.JSONObject;
 
 /**
  * 
@@ -78,9 +76,9 @@ public class TaskEntity implements Serializable {
 	@TableField(exist = false)
 	private JSONArray measurementData;
 	/**
-	 * 任务状态 0 : 处理中， 1 ： 数据传输中， 2 ： 完成
+	 * 任务状态 0:处理中 1:数据传输中 2:完成 3:异常
 	 */
-	@TableField(exist = false)
+	//TODO 记得修改数据库
 	private Integer status;
 
 	public void setMeasurement(String measurement){

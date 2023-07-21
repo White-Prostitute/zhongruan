@@ -3,17 +3,25 @@ package edu.scu.zhongruan.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import edu.scu.zhongruan.config.ConstantConfig;
+import edu.scu.zhongruan.controller.dto.QueryTaskDto;
 import edu.scu.zhongruan.controller.dto.TaskCompleteDto;
 import edu.scu.zhongruan.controller.dto.TaskPostDataDto;
+import edu.scu.zhongruan.controller.request.QueryTaskRequest;
+import edu.scu.zhongruan.dao.DoctorDao;
+import edu.scu.zhongruan.dao.PatientDao;
 import edu.scu.zhongruan.dao.TaskDao;
 import edu.scu.zhongruan.entity.DoctorEntity;
+import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.entity.TaskEntity;
 import edu.scu.zhongruan.service.TaskService;
 import edu.scu.zhongruan.utils.*;
+import edu.scu.zhongruan.vo.TaskVo;
 import lombok.extern.slf4j.Slf4j;
 import org.codehaus.jettison.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
@@ -24,6 +32,7 @@ import javax.annotation.Resource;
 import java.io.ByteArrayInputStream;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -32,6 +41,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
 
     @Resource
     RedisTemplate<String, String> template;
+
+    @Resource
+    DoctorDao doctorDao;
+
+    @Resource
+    PatientDao patientDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -69,8 +84,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
                         param.put("fileDataBase64", fileDataBase64);
                         String res = HttpClientUtil.postJson(param, ConstantConfig.PYTHON_URL);
                         log.info("收到Python响应{}, 任务id{}",res, uuid);
+                        //TODO python端回传文件相应标准化，进行失败重传
                     }catch (Exception e){
-                        //TODO 任务异常状态处理
+                        //设置任务状态为异常
+                        TaskEntity task = baseMapper.selectById(uuid.toString());
+                        task.setStatus(2);
+                        baseMapper.updateById(task);
                         log.error("文件上传python端失败", e);
                     }
                 });
@@ -92,12 +111,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
 
 
     /**
-     * 任务完成
+     * 任务完成,python端回传文件
      * 上传到OSS的文件名:uuid_complete.type
      */
     @Override
     public void completeTask(TaskCompleteDto dto) throws Exception {
-        log.info("收到python端完成任务请求,任务id{}", dto.getId());
+        log.info("收到python端回传文件,任务id{}", dto.getId());
         //更新数据库中的任务信息
         TaskEntity entity = baseMapper.selectById(dto.getId());
         if(Objects.isNull(entity)){
@@ -106,6 +125,12 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
         entity.setEndTime(new Date());
         int costTime = (int) (entity.getEndTime().getTime() - entity.getBeginTime().getTime());
         entity.setCostTime(costTime);
+        //修改任务状态
+        if(entity.getStatus() == 1){
+            entity.setStatus(2);
+        }else{
+            entity.setStatus(1);
+        }
         //删除redis中的任务id
         SetOperations<String, String> ops = template.opsForSet();
         ops.remove("running_task", dto.getId());
@@ -127,22 +152,51 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
      * @return
      */
     @Override
-    public List<TaskEntity> allTask(DoctorEntity entity) {
+    public List<TaskVo> allTask(DoctorEntity entity) {
         QueryWrapper<TaskEntity> wrapper = new QueryWrapper<>();
         wrapper.eq("creator_id", entity.getAccount());
         List<TaskEntity> list = baseMapper.selectList(wrapper);
-        list.forEach(o->{//判读任务是否已经完成
-            boolean isReceiveFile = o.getEndTime() != null;
-            boolean isReceiveData = o.getMeasurementData() != null;
-            if(isReceiveData && isReceiveFile){
-                o.setStatus(2);
-            }else if(isReceiveData || isReceiveFile){
-                o.setStatus(1);
-            }else{
-                o.setStatus(0);
+        return buildFromEntityList(list);
+    }
+
+    /**
+     * 分页查询任务信息
+     */
+    @Override
+    public QueryTaskDto queryTask(QueryTaskRequest request) {
+        //TODO 后期考虑添加缓存
+        QueryWrapper<TaskEntity> wrapper = new QueryWrapper<>();
+        QueryTaskRequest.Filter filter = request.getFilter();
+        if(Objects.nonNull(filter)){
+            //添加查询条件
+            if(Objects.nonNull(filter.getModeType())){
+                wrapper.eq("mode_type", filter.getModeType());
             }
-        });
-        return list;
+            if(Objects.nonNull(filter.getCreatorName())){
+                QueryWrapper<DoctorEntity> doctorEntityQueryWrapper = new QueryWrapper<>();
+                doctorEntityQueryWrapper.like("name", filter.getCreatorName());
+                List<DoctorEntity> doctorEntities = doctorDao.selectList(doctorEntityQueryWrapper);
+                List<String> doctorIds = doctorEntities.stream()
+                        .map(DoctorEntity::getAccount)
+                        .collect(Collectors.toList());
+                wrapper.in("creator_id", doctorIds);
+            }
+            if(Objects.nonNull(filter.getCreatorId())){
+                wrapper.like("creator_id", filter.getCreatorId());
+            }
+        }
+        Page<TaskEntity> page = new Page<>(request.getPageIndex(), request.getPageSize());
+        //TODO 分页查询优化
+        baseMapper.selectPage(page, wrapper);
+        List<TaskEntity> records = page.getRecords();
+        int total = baseMapper.selectCount(null);
+        //构建vo
+        List<TaskVo> taskVos = buildFromEntityList(records);
+        QueryTaskDto dto = new QueryTaskDto();
+        dto.setTotal(total);
+        dto.setCount(taskVos.size());
+        dto.setData(taskVos);
+        return dto;
     }
 
     /**
@@ -173,7 +227,30 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
         log.info("收到python端回传的数据{}", JSONObject.toJSONString(dto));
         TaskEntity taskEntity = baseMapper.selectById(dto.getId());
         taskEntity.setMeasurement(JSONObject.toJSONString(dto.getMeasurement()));
+        if(taskEntity.getStatus() == 1){
+            taskEntity.setStatus(2);
+        }else{
+            taskEntity.setStatus(1);
+        }
         baseMapper.updateById(taskEntity);
+    }
+
+
+    private List<TaskVo> buildFromEntityList(List<TaskEntity> list){
+        List<TaskVo> res = new ArrayList<>();
+        if(Objects.nonNull(list)){
+            list.forEach(o->{
+                TaskVo vo = new TaskVo();
+                //构建vo
+                vo.buildFromEntity(o);
+                DoctorEntity doctorEntity = doctorDao.selectById(o.getCreatorId());
+                PatientEntity patientEntity = patientDao.selectById(o.getPatientId());
+                vo.setDoctor(doctorEntity);
+                vo.setPatient(patientEntity);
+                res.add(vo);
+            });
+        }
+        return res;
     }
 
 }
