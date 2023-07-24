@@ -12,6 +12,7 @@ import org.apache.http.HttpStatus;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 返回数据
@@ -32,6 +33,10 @@ public class R extends HashMap<String, Object> {
 
     public static R error(String msg) {
         return error(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
+    }
+
+    public static R error(Exception e){
+        return Objects.requireNonNull(R.error().put("exception", e)).put("msg", e.getMessage());
     }
 
     public static R error(int code, String msg) {

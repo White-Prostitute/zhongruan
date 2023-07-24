@@ -5,15 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.service.TaskService;
-import edu.scu.zhongruan.utils.R;
 import edu.scu.zhongruan.vo.TaskVo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @SpringBootTest
 class ZhongruanApplicationTests {
@@ -23,10 +20,11 @@ class ZhongruanApplicationTests {
 
     @Test
     void contextLoads() {
-        List<TaskVo> vos = new ArrayList<>();
-        vos.add(mockTaskVo());
-        vos.add(mockTaskVo());
-        System.out.println(JSONObject.toJSONString(R.ok().put("data", vos)));
+        DoctorEntity entity = new DoctorEntity();
+        entity.setAccount("dawdad");
+        entity.setName("lisi");
+        entity.setPassword("dawdawdw");
+        System.out.println(JSONObject.toJSONString(entity));
     }
 
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import edu.scu.zhongruan.exception.RepeatAccountException;
 import edu.scu.zhongruan.utils.PageUtils;
 import edu.scu.zhongruan.utils.R;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import javax.print.Doc;
  * @email 3537136394@qq.com
  * @date 2023-06-10 14:56:17
  */
+@Slf4j
 @RestController
 @RequestMapping("zhongruan/doctor")
 public class DoctorController {
@@ -38,11 +40,12 @@ public class DoctorController {
         try{
             doctorService.register(entity);
         }catch (RepeatAccountException e){
+            //TODO 统一使用R.error(Exception)返回异常信息
             return R.error("账号重复");
         }catch (IllegalArgumentException e){
             return R.error("密码为空");
         }catch (Exception e){
-            return R.error().put("exception", e.toString());
+            return R.error(e);
         }
         return R.ok();
     }
@@ -52,10 +55,8 @@ public class DoctorController {
         String token = "";
         try{
             token = doctorService.login(entity);
-        }catch (IllegalArgumentException e){
-            return R.error("账号或者密码错误").put("exception", e.toString());
-        }catch (Exception e){
-            return R.error().put("exception", e.toString());
+        } catch (Exception e){
+            return R.error(e);
         }
         return R.ok().put("token", token);
     }
@@ -75,7 +76,12 @@ public class DoctorController {
      */
     @RequestMapping("/info/{name}")
     public R info(@PathVariable("name") String name){
-		DoctorEntity doctor = doctorService.getById(name);
+        DoctorEntity doctor;
+        try{
+            doctor = doctorService.getById(name);
+        }catch (Exception e){
+            return R.error(e);
+        }
         return R.ok().put("doctor", doctor);
     }
 
@@ -91,10 +97,14 @@ public class DoctorController {
     /**
      * 修改
      */
-    @RequestMapping("/update")
+    @PutMapping("/update")
     public R update(@RequestBody DoctorEntity doctor){
-		doctorService.updateById(doctor);
-
+        try{
+            doctorService.updateById(doctor);
+        }catch (Exception e){
+            log.error("修改医生信息错误", e);
+            return R.error(e);
+        }
         return R.ok();
     }
 

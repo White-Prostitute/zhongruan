@@ -33,7 +33,7 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorDao, DoctorEntity> impl
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<DoctorEntity> page = this.page(
                 new Query<DoctorEntity>().getPage(params),
-                new QueryWrapper<DoctorEntity>()
+                new QueryWrapper<>()
         );
 
         return new PageUtils(page);
