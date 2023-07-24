@@ -1,12 +1,15 @@
 package edu.scu.zhongruan.service.impl;
 
+import edu.scu.zhongruan.config.ConstantConfig;
 import edu.scu.zhongruan.exception.RepeatAccountException;
+import edu.scu.zhongruan.utils.AliOss;
 import edu.scu.zhongruan.utils.PageUtils;
 import edu.scu.zhongruan.utils.Query;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
@@ -19,6 +22,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import edu.scu.zhongruan.dao.DoctorDao;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.service.DoctorService;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -85,6 +89,22 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorDao, DoctorEntity> impl
             ops.set(entity.getAccount(), uuid.toString(), Duration.ofMinutes(30));
             return uuid.toString();
         }
+    }
+
+    //医生上传头像
+    @Override
+    public void uploadAvatar(MultipartFile avatar, String account) throws IOException {
+        if(Objects.isNull(avatar)||Objects.isNull(account)){
+            throw new IllegalArgumentException("参数缺失");
+        }
+        DoctorEntity entity = baseMapper.selectById(account);
+        if(Objects.isNull(entity)){
+            throw new IllegalArgumentException("账号无效");
+        }
+        AliOss.upload(avatar.getInputStream(), account + ".png");
+        String avatarUrl = ConstantConfig.OSS_BASE_URL + account + ".png";
+        entity.setAvatarUrl(avatarUrl);
+        baseMapper.updateById(entity);
     }
 
 }

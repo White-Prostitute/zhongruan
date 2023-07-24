@@ -33,4 +33,14 @@ public class DoctorEntity implements Serializable {
 	 */
 	private String password;
 
+	private String workplace;
+
+	private String post;
+
+	private String address;
+
+	private String avatarUrl;
+
+	private String phoneNumber;
+
 }

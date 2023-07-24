@@ -3,7 +3,9 @@ package edu.scu.zhongruan.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.utils.PageUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -20,5 +22,7 @@ public interface DoctorService extends IService<DoctorEntity> {
     void register(DoctorEntity entity) throws IllegalAccessException;
 
     String login(DoctorEntity entity);
+
+    void uploadAvatar(MultipartFile avatar, String account) throws IOException;
 }
 

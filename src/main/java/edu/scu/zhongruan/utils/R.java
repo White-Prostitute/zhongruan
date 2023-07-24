@@ -36,7 +36,7 @@ public class R extends HashMap<String, Object> {
     }
 
     public static R error(Exception e){
-        return Objects.requireNonNull(R.error().put("exception", e)).put("msg", e.getMessage());
+        return Objects.requireNonNull(R.error().put("exception", e.toString())).put("msg", e.getMessage());
     }
 
     public static R error(int code, String msg) {

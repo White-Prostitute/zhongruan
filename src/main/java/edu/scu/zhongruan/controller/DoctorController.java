@@ -1,19 +1,17 @@
 package edu.scu.zhongruan.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
+import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.exception.RepeatAccountException;
+import edu.scu.zhongruan.service.DoctorService;
 import edu.scu.zhongruan.utils.PageUtils;
 import edu.scu.zhongruan.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import edu.scu.zhongruan.entity.DoctorEntity;
-import edu.scu.zhongruan.service.DoctorService;
-
-import javax.print.Doc;
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -114,8 +112,20 @@ public class DoctorController {
     @RequestMapping("/delete")
     public R delete(@RequestBody String[] names){
 		doctorService.removeByIds(Arrays.asList(names));
-
         return R.ok();
     }
+
+    @PutMapping("/avatar")
+    public R uploadAvatar(MultipartFile avatar, String account){
+        try{
+            log.info("上传头像 size : {}  account : {}", avatar.getSize(), account);
+            doctorService.uploadAvatar(avatar, account);
+        }catch (Exception e){
+            log.error("上传头像错误", e);
+            return R.error(e);
+        }
+        return R.ok();
+    }
+
 
 }

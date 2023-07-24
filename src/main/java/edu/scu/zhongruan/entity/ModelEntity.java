@@ -26,7 +26,7 @@ public class ModelEntity implements Serializable {
 	/**
 	 * 
 	 */
-	private String desc;
+	private String description;
 	/**
 	 * 
 	 */

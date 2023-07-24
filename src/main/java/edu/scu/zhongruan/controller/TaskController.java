@@ -12,7 +12,6 @@ import edu.scu.zhongruan.utils.R;
 import edu.scu.zhongruan.utils.UsuUtil;
 import edu.scu.zhongruan.vo.TaskVo;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +20,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -56,7 +54,7 @@ public class TaskController {
     }
 
     @PostMapping("/page")
-    public R queryPage(QueryTaskRequest request){
+    public R queryPage(@RequestBody QueryTaskRequest request){
         QueryTaskDto dto;
         try{
             dto = taskService.queryTask(request);

@@ -168,13 +168,16 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
      */
     @Override
     public QueryTaskDto queryTask(QueryTaskRequest request) {
+        if(Objects.isNull(request)){
+            throw new IllegalArgumentException("参数异常");
+        }
         //TODO 后期考虑添加缓存
         QueryWrapper<TaskEntity> wrapper = new QueryWrapper<>();
         QueryTaskRequest.Filter filter = request.getFilter();
         if(Objects.nonNull(filter)){
             //添加查询条件
             if(Objects.nonNull(filter.getModeType())){
-                wrapper.eq("mode_type", filter.getModeType());
+                wrapper.eq("model_type", filter.getModeType());
             }
             if(Objects.nonNull(filter.getCreatorName())){
                 QueryWrapper<DoctorEntity> doctorEntityQueryWrapper = new QueryWrapper<>();
@@ -184,8 +187,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
                         .map(DoctorEntity::getAccount)
                         .collect(Collectors.toList());
                 wrapper.in("creator_id", doctorIds);
-            }
-            if(Objects.nonNull(filter.getCreatorId())){
+            }else if(Objects.nonNull(filter.getCreatorId())){
                 wrapper.like("creator_id", filter.getCreatorId());
             }
         }
