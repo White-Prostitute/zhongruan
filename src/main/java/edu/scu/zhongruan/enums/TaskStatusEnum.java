@@ -1,7 +1,5 @@
 package edu.scu.zhongruan.enums;
 
-import lombok.Data;
-
 import java.util.HashMap;
 import java.util.Map;
 

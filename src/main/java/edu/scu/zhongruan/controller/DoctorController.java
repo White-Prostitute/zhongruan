@@ -1,7 +1,6 @@
 package edu.scu.zhongruan.controller;
 
 import edu.scu.zhongruan.entity.DoctorEntity;
-import edu.scu.zhongruan.exception.RepeatAccountException;
 import edu.scu.zhongruan.service.DoctorService;
 import edu.scu.zhongruan.utils.PageUtils;
 import edu.scu.zhongruan.utils.R;
@@ -37,12 +36,8 @@ public class DoctorController {
     public R register(@RequestBody DoctorEntity entity){
         try{
             doctorService.register(entity);
-        }catch (RepeatAccountException e){
-            //TODO 统一使用R.error(Exception)返回异常信息
-            return R.error("账号重复");
-        }catch (IllegalArgumentException e){
-            return R.error("密码为空");
         }catch (Exception e){
+            log.error("注册失败", e);
             return R.error(e);
         }
         return R.ok();
