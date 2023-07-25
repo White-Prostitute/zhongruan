@@ -9,12 +9,26 @@
 </head>
 <body>
 
-<form action="http://localhost:8080/zhongruan/task/submit" method="post">
-    <input name="patientId" type="text">
-    <input name="creatorId" type="text">
-    <input name="files" type="file" multiple="multiple" enctype="multipart/form-data">
-    <input type="submit">
+<form id="myForm">
+    <input name="account" type="text">
+    <input name="password" type="text">
+    <br>
+    <button onclick="submitForm()"></button>
 </form>
+
+<script>
+    function submitForm() {
+        var form = document.getElementById('myForm');
+        var data = {
+            account: form.elements['account'].value,
+            password: form.elements['password'].value
+        };
+        var xhr = new XMLHttpRequest();
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.open('POST', 'http://localhost:8080/zhongruan/doctor/login');
+        xhr.send(JSON.stringify(data));
+    }
+</script>
 
 </body>
 </html>

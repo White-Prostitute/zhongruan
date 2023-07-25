@@ -32,6 +32,7 @@ import java.util.Objects;
  * @date 2023-06-10 14:56:17
  */
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("zhongruan/task")
 public class TaskController {

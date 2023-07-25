@@ -20,6 +20,7 @@ import java.util.*;
  * @date 2023-06-10 14:56:17
  */
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("zhongruan/patient")
 public class PatientController {
