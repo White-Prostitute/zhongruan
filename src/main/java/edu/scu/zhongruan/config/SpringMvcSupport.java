@@ -30,6 +30,6 @@ public class SpringMvcSupport implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // 支持方法
                 .allowedHeaders("*")
                 .exposedHeaders("*")
-                .allowedOrigins("*");
+                .allowedOrigins("https://www.google.com");
     }
 }

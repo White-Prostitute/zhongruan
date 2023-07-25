@@ -133,3 +133,189 @@ Caused by: java.sql.SQLSyntaxErrorException: Unknown column 'description' in 'fi
 2023-07-25 19:22:51 -Resolved [org.springframework.web.HttpMediaTypeNotSupportedException: Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported]
 2023-07-25 19:30:15 -HikariPool-1 - Shutdown initiated...
 2023-07-25 19:30:15 -HikariPool-1 - Shutdown completed.
+2023-07-25 19:31:21 -Starting ZhongruanApplicationTests using Java 1.8.0_372 on MBP-2Z23FVLVCH-1903.local with PID 68198 (started by mac in /Users/mac/Downloads/zhongruan/zhongruan)
+2023-07-25 19:31:21 -No active profile set, falling back to 1 default profile: "default"
+2023-07-25 19:31:22 -Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-25 19:31:22 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-07-25 19:31:22 -Finished Spring Data repository scanning in 15 ms. Found 0 Redis repository interfaces.
+2023-07-25 19:31:25 -Started ZhongruanApplicationTests in 9.12 seconds (JVM running for 10.291)
+2023-07-25 19:38:48 -Starting ZhongruanApplication using Java 1.8.0_372 on MBP-2Z23FVLVCH-1903.local with PID 68626 (/Users/mac/Downloads/zhongruan/zhongruan/target/classes started by mac in /Users/mac/Downloads/zhongruan/zhongruan)
+2023-07-25 19:38:48 -No active profile set, falling back to 1 default profile: "default"
+2023-07-25 19:38:49 -Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-25 19:38:49 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-07-25 19:38:49 -Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+2023-07-25 19:38:50 -Tomcat initialized with port(s): 8080 (http)
+2023-07-25 19:38:50 -Initializing ProtocolHandler ["http-nio-8080"]
+2023-07-25 19:38:50 -Starting service [Tomcat]
+2023-07-25 19:38:50 -Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-07-25 19:38:50 -Initializing Spring embedded WebApplicationContext
+2023-07-25 19:38:50 -Root WebApplicationContext: initialization completed in 1839 ms
+2023-07-25 19:38:52 -Starting ProtocolHandler ["http-nio-8080"]
+2023-07-25 19:38:52 -Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-25 19:38:52 -Started ZhongruanApplication in 3.777 seconds (JVM running for 9.511)
+2023-07-25 19:38:59 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 19:38:59 -Initializing Servlet 'dispatcherServlet'
+2023-07-25 19:38:59 -Completed initialization in 1 ms
+2023-07-25 19:38:59 -Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.] with root cause
+java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
+	at org.springframework.web.cors.CorsConfiguration.validateAllowCredentials(CorsConfiguration.java:473)
+	at org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:532)
+	at org.springframework.web.servlet.DispatcherServlet.getHandler(DispatcherServlet.java:1266)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1048)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:750)
+2023-07-25 19:38:59 -Servlet.service() for servlet [dispatcherServlet] threw exception
+java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
+	at org.springframework.web.cors.CorsConfiguration.validateAllowCredentials(CorsConfiguration.java:473)
+	at org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:532)
+	at org.springframework.web.servlet.DispatcherServlet.getHandler(DispatcherServlet.java:1266)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1048)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:102)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:102)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:661)
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:427)
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:357)
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:294)
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:373)
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:237)
+	at org.apache.catalina.core.StandardHostValve.throwable(StandardHostValve.java:319)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:164)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:750)
+2023-07-25 19:38:59 -Exception Processing ErrorPage[errorCode=0, location=/error]
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:102)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:102)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.ApplicationDispatcher.invoke(ApplicationDispatcher.java:661)
+	at org.apache.catalina.core.ApplicationDispatcher.processRequest(ApplicationDispatcher.java:427)
+	at org.apache.catalina.core.ApplicationDispatcher.doForward(ApplicationDispatcher.java:357)
+	at org.apache.catalina.core.ApplicationDispatcher.forward(ApplicationDispatcher.java:294)
+	at org.apache.catalina.core.StandardHostValve.custom(StandardHostValve.java:373)
+	at org.apache.catalina.core.StandardHostValve.status(StandardHostValve.java:237)
+	at org.apache.catalina.core.StandardHostValve.throwable(StandardHostValve.java:319)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:164)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:750)
+Caused by: java.lang.IllegalArgumentException: When allowCredentials is true, allowedOrigins cannot contain the special value "*" since that cannot be set on the "Access-Control-Allow-Origin" response header. To allow credentials to a set of origins, list them explicitly or consider using "allowedOriginPatterns" instead.
+	at org.springframework.web.cors.CorsConfiguration.validateAllowCredentials(CorsConfiguration.java:473)
+	at org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:532)
+	at org.springframework.web.servlet.DispatcherServlet.getHandler(DispatcherServlet.java:1266)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1048)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	... 36 common frames omitted
+2023-07-25 19:41:11 -Starting ZhongruanApplication using Java 1.8.0_372 on MBP-2Z23FVLVCH-1903.local with PID 68767 (/Users/mac/Downloads/zhongruan/zhongruan/target/classes started by mac in /Users/mac/Downloads/zhongruan/zhongruan)
+2023-07-25 19:41:11 -No active profile set, falling back to 1 default profile: "default"
+2023-07-25 19:41:12 -Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-25 19:41:12 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-07-25 19:41:12 -Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2023-07-25 19:41:12 -Tomcat initialized with port(s): 8080 (http)
+2023-07-25 19:41:12 -Initializing ProtocolHandler ["http-nio-8080"]
+2023-07-25 19:41:12 -Starting service [Tomcat]
+2023-07-25 19:41:12 -Starting Servlet engine: [Apache Tomcat/9.0.75]
+2023-07-25 19:41:12 -Initializing Spring embedded WebApplicationContext
+2023-07-25 19:41:12 -Root WebApplicationContext: initialization completed in 1059 ms
+2023-07-25 19:41:14 -Starting ProtocolHandler ["http-nio-8080"]
+2023-07-25 19:41:14 -Tomcat started on port(s): 8080 (http) with context path ''
+2023-07-25 19:41:14 -Started ZhongruanApplication in 2.756 seconds (JVM running for 8.27)
+2023-07-25 19:41:21 -Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-07-25 19:41:21 -Initializing Servlet 'dispatcherServlet'
+2023-07-25 19:41:21 -Completed initialization in 1 ms
+2023-07-25 19:41:21 -HikariPool-1 - Starting...
+2023-07-25 19:41:21 -HikariPool-1 - Start completed.
+2023-07-25 19:42:22 -HikariPool-1 - Shutdown initiated...
+2023-07-25 19:42:22 -HikariPool-1 - Shutdown completed.
+2023-07-25 19:42:40 -Starting ZhongruanApplicationTests using Java 1.8.0_372 on MBP-2Z23FVLVCH-1903.local with PID 68795 (started by mac in /Users/mac/Downloads/zhongruan/zhongruan)
+2023-07-25 19:42:40 -No active profile set, falling back to 1 default profile: "default"
+2023-07-25 19:42:41 -Multiple Spring Data modules found, entering strict repository configuration mode
+2023-07-25 19:42:41 -Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-07-25 19:42:41 -Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2023-07-25 19:42:44 -Started ZhongruanApplicationTests in 8.786 seconds (JVM running for 10.109)
