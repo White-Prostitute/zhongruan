@@ -13,19 +13,20 @@
     <input name="account" type="text">
     <input name="password" type="text">
     <br>
-    <button onclick="submitForm()"></button>
+    <button onclick="submitForm(event)"></button>
 </form>
 
 <script>
-    function submitForm() {
+    function submitForm(event) {
+        event.preventDefault()
         var form = document.getElementById('myForm');
         var data = {
             account: form.elements['account'].value,
             password: form.elements['password'].value
         };
         var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://mooddriftbottle.team:8082/zhongruan/doctor/login');
         xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.open('POST', 'http://localhost:8080/zhongruan/doctor/login');
         xhr.send(JSON.stringify(data));
     }
 </script>

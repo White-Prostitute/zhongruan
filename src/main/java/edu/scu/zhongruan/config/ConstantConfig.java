@@ -1,7 +1,5 @@
 package edu.scu.zhongruan.config;
 
-import java.util.Set;
-
 public class ConstantConfig {
 
     //python端地址
