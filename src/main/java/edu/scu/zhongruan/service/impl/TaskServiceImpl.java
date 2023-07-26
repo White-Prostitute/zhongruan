@@ -85,7 +85,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
                         param.put("fileDataBase64", fileDataBase64);
                         String res = HttpClientUtil.postJson(param, ConstantConfig.PYTHON_URL);
                         log.info("收到Python响应{}, 任务id{}",res, uuid);
-                        //TODO python端回传文件相应标准化，进行失败重传
+                        // TODO python端回传文件相应标准化，进行失败重传
                     }catch (Exception e){
                         //设置任务状态为异常
                         TaskEntity task = baseMapper.selectById(uuid.toString());
@@ -248,6 +248,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
     }
 
 
+    //通过entity构建vo
     private List<TaskVo> buildFromEntityList(List<TaskEntity> list){
         List<TaskVo> res = new ArrayList<>();
         if(Objects.nonNull(list)){

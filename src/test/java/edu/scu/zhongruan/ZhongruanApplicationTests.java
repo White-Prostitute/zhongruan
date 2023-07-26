@@ -6,11 +6,14 @@ import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.service.TaskService;
 import edu.scu.zhongruan.vo.TaskVo;
+import org.apache.curator.framework.CuratorFramework;
+import org.apache.curator.framework.api.GetDataBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.Objects;
 
 @SpringBootTest
 class ZhongruanApplicationTests {
@@ -18,13 +21,15 @@ class ZhongruanApplicationTests {
     @Autowired
     TaskService service;
 
+    @Autowired
+    CuratorFramework curatorFramework;
+
     @Test
-    void contextLoads() {
-        DoctorEntity entity = new DoctorEntity();
-        entity.setAccount("dawdad");
-        entity.setName("lisi");
-        entity.setPassword("dawdawdw");
-        System.out.println(JSONObject.toJSONString(entity));
+    void contextLoads() throws Exception {
+        System.out.println(Objects.isNull(curatorFramework));
+        GetDataBuilder data = curatorFramework.getData();
+        byte[] bytes = data.forPath("/test/age");
+        System.out.println(new String(bytes));
     }
 
 

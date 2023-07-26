@@ -5,15 +5,15 @@ import edu.scu.zhongruan.exception.RepeatAccountException;
 import edu.scu.zhongruan.utils.AliOss;
 import edu.scu.zhongruan.utils.PageUtils;
 import edu.scu.zhongruan.utils.Query;
+import edu.scu.zhongruan.utils.UsuUtil;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -28,10 +28,20 @@ import javax.annotation.Resource;
 
 
 @Service("doctorService")
-public class DoctorServiceImpl extends ServiceImpl<DoctorDao, DoctorEntity> implements DoctorService {
+public class DoctorServiceImpl extends ServiceImpl<DoctorDao, DoctorEntity> implements DoctorService, InitializingBean {
 
     @Resource
     RedisTemplate<String, String> template;
+
+    private static final Set<String> validAvatarFileType = new HashSet<>();
+
+    @Override
+    public void afterPropertiesSet() {
+        validAvatarFileType.add("png");
+        validAvatarFileType.add("jpeg");
+        validAvatarFileType.add("jpg");
+        validAvatarFileType.add("bmp");
+    }
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -51,12 +61,12 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorDao, DoctorEntity> impl
     public void register(DoctorEntity entity) {
         //检查账号是否重复
         DoctorEntity doctorEntity = baseMapper.selectById(entity.getAccount());
-        if(doctorEntity != null){//账号重复
-            throw new RepeatAccountException();
-        }
         //检查密码是否为空
-        if(Objects.isNull(entity.getPassword())){
-            throw new IllegalArgumentException();
+        if(Objects.isNull(entity.getPassword()) || Objects.isNull(entity.getAccount())){
+            throw new IllegalArgumentException("账号或密码为空");
+        }
+        if(doctorEntity != null){//账号重复
+            throw new IllegalArgumentException("账号重复");
         }
         //添加到数据库
         baseMapper.insert(entity);
@@ -77,11 +87,11 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorDao, DoctorEntity> impl
         wrapper.eq("password", entity.getPassword());
         DoctorEntity doctorEntity = baseMapper.selectOne(wrapper);
         if(doctorEntity == null){//账号或者密码错误
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("账号或密码错误");
         }else{//生成token
             ValueOperations<String, String> ops = template.opsForValue();
             //先检查是否已经登陆过了，是就删除之前生成的token
-            if(template.hasKey(entity.getAccount())){
+            if(Boolean.TRUE.equals(template.hasKey(entity.getAccount()))){
                 template.delete(Objects.requireNonNull(ops.get(entity.getAccount())));
             }
             UUID uuid = UUID.randomUUID();
@@ -101,8 +111,12 @@ public class DoctorServiceImpl extends ServiceImpl<DoctorDao, DoctorEntity> impl
         if(Objects.isNull(entity)){
             throw new IllegalArgumentException("账号无效");
         }
-        AliOss.upload(avatar.getInputStream(), account + ".png");
-        String avatarUrl = ConstantConfig.OSS_BASE_URL + account + ".png";
+        String suffix = UsuUtil.getFileSuffix(avatar.getOriginalFilename());
+        if(!validAvatarFileType.contains(suffix)){
+            throw new IllegalArgumentException("文件类型无效");
+        }
+        AliOss.upload(avatar.getInputStream(), account + "." + suffix);
+        String avatarUrl = ConstantConfig.OSS_BASE_URL + account + "." + suffix;
         entity.setAvatarUrl(avatarUrl);
         baseMapper.updateById(entity);
     }

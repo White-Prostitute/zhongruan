@@ -21,6 +21,7 @@ import edu.scu.zhongruan.service.ModeService;
  * @date 2023-06-10 14:56:17
  */
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("zhongruan/model")
 public class ModelController {
