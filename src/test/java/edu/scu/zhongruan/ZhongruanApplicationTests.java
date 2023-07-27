@@ -2,18 +2,20 @@ package edu.scu.zhongruan;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import edu.scu.zhongruan.controller.TaskController;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.service.TaskService;
+import edu.scu.zhongruan.utils.R;
 import edu.scu.zhongruan.vo.TaskVo;
-import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.api.GetDataBuilder;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Objects;
+import java.util.List;
+import java.util.TimeZone;
 
 @SpringBootTest
 class ZhongruanApplicationTests {
@@ -22,14 +24,20 @@ class ZhongruanApplicationTests {
     TaskService service;
 
     @Autowired
-    CuratorFramework curatorFramework;
+    TaskController controller;
+
 
     @Test
-    void contextLoads() throws Exception {
-        System.out.println(Objects.isNull(curatorFramework));
-        GetDataBuilder data = curatorFramework.getData();
-        byte[] bytes = data.forPath("/test/age");
-        System.out.println(new String(bytes));
+    void contextLoads() {
+        DoctorEntity entity = new DoctorEntity();
+        entity.setAccount("1");
+        List<TaskVo> taskVos = service.allTask(entity);
+        for (TaskVo vo : taskVos) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai")); // 设置时区为上海
+            String localTime = sdf.format(vo.getBeginTime());
+            System.out.println(localTime); // 输出本地时间
+        }
     }
 
 

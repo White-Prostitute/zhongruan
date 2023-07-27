@@ -33,7 +33,7 @@ public class ZooKeeperUtil implements InitializingBean {
                 .retryPolicy(new ExponentialBackoffRetry(1000, 3))
                 .build();
         curatorFramework.start();
-        curatorFramework.create().creatingParentContainersIfNeeded().forPath(BASE_NODE);
+//        curatorFramework.create().creatingParentContainersIfNeeded().forPath(BASE_NODE);
     }
 
     //获取oss bucket名称

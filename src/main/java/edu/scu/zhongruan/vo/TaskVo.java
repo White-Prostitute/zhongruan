@@ -2,6 +2,7 @@ package edu.scu.zhongruan.vo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import edu.scu.zhongruan.config.ConstantConfig;
 import edu.scu.zhongruan.entity.DoctorEntity;
 import edu.scu.zhongruan.entity.PatientEntity;
 import edu.scu.zhongruan.entity.TaskEntity;
@@ -26,12 +27,12 @@ public class TaskVo {
     /**
      *
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date beginTime;
     /**
      *
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date endTime;
     /**
      *
@@ -72,10 +73,19 @@ public class TaskVo {
     private String statusDesc;
 
     /**
+     * 原始文件获取路径
+     */
+    private String originFileUrl;
+
+    /**
+     * 处理完成的文件获取路径
+     */
+    private String completeFileUrl;
+
+    /**
      * 医生信息
      */
     private DoctorEntity doctor;
-
     /**
      * 病人信息
      */
@@ -95,6 +105,8 @@ public class TaskVo {
         this.costTime = entity.getCostTime();
         this.modelType = entity.getModelType();
         this.patientId = entity.getPatientId();
+        this.originFileUrl = entity.getId() + ConstantConfig.ORIGIN_SUFFIX + "." + entity.getFileType();
+        this.completeFileUrl = entity.getId() + ConstantConfig.COMPLETE_SUFFIX + "." + entity.getFileType();
     }
 
 }

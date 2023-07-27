@@ -247,6 +247,23 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
         baseMapper.updateById(taskEntity);
     }
 
+    @Override
+    public void deleteTask(List<String> ids) {
+        for (String id : ids) {
+            try{
+                TaskEntity task = baseMapper.selectById(id);
+                //删除OSS上的文件
+                String originName = id + ConstantConfig.ORIGIN_SUFFIX + "." + task.getFileType();
+                String completeName = id + ConstantConfig.COMPLETE_SUFFIX + "." + task.getFileType();
+                AliOss.deleteFile(originName);
+                AliOss.deleteFile(completeName);
+                baseMapper.deleteById(id);
+            }catch (Exception e){
+                log.error("删除任务失败", e);
+            }
+        }
+    }
+
 
     //通过entity构建vo
     private List<TaskVo> buildFromEntityList(List<TaskEntity> list){

@@ -38,5 +38,7 @@ public interface TaskService extends IService<TaskEntity> {
     void writeAdviceOrNotes(TaskEntity entity);
 
     void taskPostData(TaskPostDataDto dto);
+
+    void deleteTask(List<String> ids);
 }
 

@@ -174,10 +174,10 @@ public class TaskController {
     public R delete(@RequestBody Map<String, Object> map){
         try{
             List<String> ids = (List<String>) map.get("ids");
-            taskService.removeByIds(ids);
+            taskService.deleteTask(ids);
         }catch (Exception e){
             log.error("删除失败", e);
-            return Objects.requireNonNull(R.error().put("exception", e.toString())).put("msg", e.getMessage());
+            return R.error(e);
         }
         return R.ok();
     }

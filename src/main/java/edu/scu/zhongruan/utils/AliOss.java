@@ -68,4 +68,10 @@ public class AliOss {
         return object.getObjectContent();
     }
 
+    public static void deleteFile(String fileName){
+        getConfigInfo();
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        ossClient.deleteObject(bucketName, fileName);
+    }
+
 }

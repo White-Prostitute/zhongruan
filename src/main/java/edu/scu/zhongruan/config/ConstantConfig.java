@@ -7,4 +7,7 @@ public class ConstantConfig {
 
     public static final String OSS_BASE_URL = "https://scu-zrb-a3.oss-cn-chengdu.aliyuncs.com/";
 
+    public static final String ORIGIN_SUFFIX = "_origin";
+
+    public static final String COMPLETE_SUFFIX = "_complete";
 }
