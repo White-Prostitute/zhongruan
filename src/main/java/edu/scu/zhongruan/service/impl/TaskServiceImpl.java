@@ -139,7 +139,7 @@ public class TaskServiceImpl extends ServiceImpl<TaskDao, TaskEntity> implements
         SetOperations<String, String> ops = template.opsForSet();
         ops.remove("running_task", dto.getId());
         //将处理完成的文件上传到OSS
-        String fileName = dto.getId() + "_complete."+UsuUtil.getFileSuffix(dto.getFileType());
+        String fileName = dto.getId() + "_complete."+dto.getFileType();
         String fileData = dto.getBase64fileData();
         if(Objects.nonNull(fileData)){
             BASE64Decoder decoder = new BASE64Decoder();
